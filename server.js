@@ -13,7 +13,6 @@ dotenv.config({
 mongoose
   .connect(process.env.MONGO_URL)
   .then((con) => {
-    console.log(con);
     console.log("MongoDB connected!");
   })
   .catch((err) => {
