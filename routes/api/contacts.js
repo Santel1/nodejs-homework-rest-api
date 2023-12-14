@@ -1,19 +1,25 @@
 const express = require("express");
-const { nanoid } = require("nanoid");
+// const { nanoid } = require("nanoid");
+const { Types } = require("mongoose");
+
 const router = express.Router();
 const {
-  listContacts,
-  getContactById,
+  // listContacts,
+  // getContactById,
   removeContact,
-  addContact,
+  // addContact,
   updateContact,
 } = require("../../models/contacts");
 const { catchAsync, contactValidators, HttpError } = require("../../utils");
+const Contact = require("../../models/contactModel");
 
 router.get(
   "/",
   catchAsync(async (req, res, next) => {
-    const contacts = await listContacts();
+    // const contacts = await listContacts();
+
+    const contacts = await Contact.find();
+
     res.status(200).json({
       status: "Success",
       contacts,
@@ -26,7 +32,13 @@ router.get(
   catchAsync(async (req, res) => {
     const { contactId } = req.params;
 
-    const contact = await getContactById(contactId);
+    const idIsValid = Types.ObjectId.isValid(contactId);
+
+    if (!idIsValid) {
+      return res.status(404).json({ message: "Contact not found" });
+    }
+    // const contact = await getContactById(contactId);
+    const contact = await Contact.findById(contactId);
 
     if (!contact) {
       return res.status(404).json({ message: "Contact not found" });
@@ -49,20 +61,22 @@ router.post(
     if (error)
       throw new HttpError(400, { message: "Missing required name field" });
 
-    const { name, email, phone } = value;
+    // const { name, email, phone } = value;
 
-    const body = {
-      id: nanoid(),
-      name: name,
-      email: email,
-      phone: phone,
-    };
+    // const body = {
+    //   id: nanoid(),
+    //   name: name,
+    //   email: email,
+    //   phone: phone,
+    // };
 
-    await addContact(body);
+    // await addContact(body);
+
+    const newContact = await Contact.create(value);
 
     res.status(201).json({
       status: "Success",
-      body,
+      body: newContact,
     });
   })
 );

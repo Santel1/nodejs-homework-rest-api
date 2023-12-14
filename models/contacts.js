@@ -48,11 +48,9 @@ const removeContact = async (contactId) => {
 
 const addContact = async (body) => {
   try {
-    const allContacts = await listContacts();
-
-    allContacts.push(body);
-
-    return await fs.writeFile(contactsPath, JSON.stringify(allContacts));
+    // const allContacts = await listContacts();
+    // allContacts.push(body);
+    // return await fs.writeFile(contactsPath, JSON.stringify(allContacts));
   } catch (err) {
     console.log(err);
   }
