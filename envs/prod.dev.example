@@ -1,0 +1,6 @@
+PROJECT_NAME='Homework Node.JS'
+NODE_ENV='production'
+PORT=3002
+MONGO_URL='DB url'
+
+  
