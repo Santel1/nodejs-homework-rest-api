@@ -22,6 +22,6 @@ exports.updateContactDataValidator = (data) =>
 exports.updateContactStatusValidator = (data) =>
   Joi.object()
     .keys({
-      favorite: Joi.boolean(),
+      favorite: Joi.boolean().required(),
     })
     .validate(data);

@@ -62,7 +62,7 @@ exports.checkStatusContactData = catchAsync(async (req, res, next) => {
   const { value, error } = contactValidators.updateContactStatusValidator(
     req.body
   );
-  if (error) throw new HttpError(400, "Invalid contact data!");
+  if (error) throw new HttpError(400, "Missing field favorite");
 
   req.body = value;
 
