@@ -33,7 +33,9 @@ exports.deleteContact = catchAsync(async (req, res) => {
 
   await Contact.findByIdAndDelete(contactId);
 
-  res.sendStatus(204);
+  res.status(200).json({
+    message: "Contact deleted",
+  });
 });
 
 exports.updateContact = catchAsync(async (req, res) => {
