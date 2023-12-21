@@ -1,95 +1,93 @@
-const fs = require("fs/promises");
-const path = require("path");
+// const fs = require("fs/promises");
+// const path = require("path");
 
-const contactsPath = path.join("models", "contacts.json");
+// const contactsPath = path.join("models", "contacts.json");
 
-const listContacts = async () => {
-  try {
-    const contactsDB = await fs.readFile(contactsPath);
-    const contacts = JSON.parse(contactsDB);
-    return contacts;
-  } catch (err) {
-    console.log(err);
-  }
-};
+// const listContacts = async () => {
+//   try {
+//     const contactsDB = await fs.readFile(contactsPath);
+//     const contacts = JSON.parse(contactsDB);
+//     return contacts;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
-const getContactById = async (contactId) => {
-  try {
-    const allContacts = await listContacts();
+// const getContactById = async (contactId) => {
+//   try {
+//     const allContacts = await listContacts();
 
-    const contactByID = allContacts.find((contact) => contact.id === contactId);
+//     const contactByID = allContacts.find((contact) => contact.id === contactId);
 
-    return contactByID;
-  } catch (err) {
-    console.log(err);
-  }
-};
+//     return contactByID;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
-const removeContact = async (contactId) => {
-  try {
-    const allContacts = await listContacts();
+// const removeContact = async (contactId) => {
+//   try {
+//     const allContacts = await listContacts();
 
-    const contactIndex = allContacts.findIndex(
-      (contact) => contact.id === contactId
-    );
+//     const contactIndex = allContacts.findIndex(
+//       (contact) => contact.id === contactId
+//     );
 
-    if (contactIndex !== -1) {
-      const removedContact = allContacts.splice(contactIndex, 1)[0];
+//     if (contactIndex !== -1) {
+//       const removedContact = allContacts.splice(contactIndex, 1)[0];
 
-      await fs.writeFile(contactsPath, JSON.stringify(allContacts));
-      return removedContact;
-    } else {
-      return null;
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
+//       await fs.writeFile(contactsPath, JSON.stringify(allContacts));
+//       return removedContact;
+//     } else {
+//       return null;
+//     }
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
-const addContact = async (body) => {
-  try {
-    const allContacts = await listContacts();
+// const addContact = async (body) => {
+//   try {
+//     // const allContacts = await listContacts();
+//     // allContacts.push(body);
+//     // return await fs.writeFile(contactsPath, JSON.stringify(allContacts));
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
-    allContacts.push(body);
+// const updateContact = async (contactId, body) => {
+//   try {
+//     const allContacts = await listContacts();
 
-    return await fs.writeFile(contactsPath, JSON.stringify(allContacts));
-  } catch (err) {
-    console.log(err);
-  }
-};
+//     const contactIndex = allContacts.findIndex(
+//       (contact) => contact.id === contactId
+//     );
 
-const updateContact = async (contactId, body) => {
-  try {
-    const allContacts = await listContacts();
+//     if (contactIndex !== -1) {
+//       const existingContact = allContacts[contactIndex];
 
-    const contactIndex = allContacts.findIndex(
-      (contact) => contact.id === contactId
-    );
+//       const updatedContact = { ...existingContact, ...body };
 
-    if (contactIndex !== -1) {
-      const existingContact = allContacts[contactIndex];
+//       allContacts[contactIndex] = updatedContact;
 
-      const updatedContact = { ...existingContact, ...body };
+//       await fs.writeFile(
+//         "./models/contacts.json",
+//         JSON.stringify(allContacts, null, 2)
+//       );
+//       return getContactById(contactId);
+//     } else {
+//       return null;
+//     }
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
-      allContacts[contactIndex] = updatedContact;
-
-      await fs.writeFile(
-        "./models/contacts.json",
-        JSON.stringify(allContacts, null, 2)
-      );
-      return getContactById(contactId);
-    } else {
-      return null;
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-module.exports = {
-  listContacts,
-  getContactById,
-  removeContact,
-  addContact,
-  updateContact,
-};
+// module.exports = {
+//   listContacts,
+//   getContactById,
+//   removeContact,
+//   addContact,
+//   updateContact,
+// };
