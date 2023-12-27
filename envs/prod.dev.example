@@ -2,5 +2,6 @@ PROJECT_NAME='Homework Node.JS'
 NODE_ENV='production'
 PORT=3002
 MONGO_URL='DB url'
-
+JWT_SECRET='secret-jwt-string'
+JWT_EXPIRES='1d'
   

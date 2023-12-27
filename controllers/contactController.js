@@ -2,11 +2,50 @@ const Contact = require("../models/contactModel");
 const { catchAsync } = require("../utils");
 
 exports.getAllContacts = catchAsync(async (req, res) => {
-  const contacts = await Contact.find();
+  const query = req.query;
+
+  const owner = req.user;
+
+  const findOptions = query.search
+    ? {
+        $or: [
+          { name: { $regex: query.search, $options: "i" }, owner: owner.id },
+          { phone: { $regex: query.search, $options: "i" }, owner: owner.id },
+        ],
+      }
+    : {};
+
+  if (query.search && owner.id) {
+    for (const findOption of findOptions.$or) findOption.owner = owner;
+  }
+
+  if (!query.search && owner.id) {
+    findOptions.owner = owner;
+  }
+
+  const contactsQuery = Contact.find(findOptions).populate(
+    "owner",
+    "id email subscription"
+  );
+
+  contactsQuery.sort(
+    `${query.order === "DESC" ? "-" : ""}${query.sort ?? "name"}`
+  );
+
+  const paginationPage = query.page ? +query.page : 1;
+  const paginationLimit = query.limit ? +query.limit : 10;
+  const contactsToSkip = (paginationPage - 1) * paginationLimit;
+
+  contactsQuery.skip(contactsToSkip).limit(paginationLimit);
+
+  const contacts = await contactsQuery;
+
+  const total = await Contact.countDocuments(findOptions);
 
   res.status(200).json({
     status: "Success",
     contacts,
+    total,
   });
 });
 
@@ -20,11 +59,14 @@ exports.getContact = catchAsync(async (req, res) => {
 });
 
 exports.addContact = catchAsync(async (req, res) => {
-  const newContact = await Contact.create(req.body);
+  const { email, name, phone } = req.body;
+  const owner = req.user;
+
+  const newContact = await Contact.create({ email, name, phone, owner });
 
   res.status(201).json({
     status: "Success",
-    body: newContact,
+    contact: newContact,
   });
 });
 
