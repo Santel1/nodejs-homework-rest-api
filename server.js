@@ -1,7 +1,4 @@
-const app = require("./app");
 const dotenv = require("dotenv");
-
-const mongoose = require("mongoose");
 
 dotenv.config({
   path:
@@ -10,6 +7,10 @@ dotenv.config({
       : "./envs/prod.env",
 });
 
+const app = require("./app");
+
+const mongoose = require("mongoose");
+
 mongoose
   .connect(process.env.MONGO_URL)
   .then(console.log("Database connection successful"))
@@ -17,6 +18,7 @@ mongoose
     console.log(err);
     process.exit(1);
   });
+
 console.log(process.env.NODE_ENV);
 
 const port = process.env.PORT ?? 4000;

@@ -1,8 +1,10 @@
 const express = require("express");
 const { contactController } = require("../../controllers");
-const { contactMiddleware } = require("../../middlewares");
+const { contactMiddleware, authMiddleware } = require("../../middlewares");
 
 const router = express.Router();
+
+router.use(authMiddleware.protect);
 
 router.get("/", contactController.getAllContacts);
 router.post(
