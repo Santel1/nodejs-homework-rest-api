@@ -43,7 +43,6 @@ exports.getAllContacts = catchAsync(async (req, res) => {
   const total = await Contact.countDocuments(findOptions);
 
   res.status(200).json({
-    status: "Success",
     contacts,
     total,
   });
@@ -65,8 +64,11 @@ exports.addContact = catchAsync(async (req, res) => {
   const newContact = await Contact.create({ email, name, phone, owner });
 
   res.status(201).json({
-    status: "Success",
-    contact: newContact,
+    id: newContact.id,
+    name: newContact.name,
+    email: newContact.email,
+    phone: newContact.phone,
+    favorite: newContact.favorite,
   });
 });
 
