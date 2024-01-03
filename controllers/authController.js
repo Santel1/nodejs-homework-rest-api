@@ -20,6 +20,7 @@ exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email: email }).select("+password");
+
   if (!user) {
     throw new HttpError(401, "Email or password is wrong");
   }
@@ -59,7 +60,6 @@ exports.currentUser = async (req, res) => {
 
 exports.logout = catchAsync(async (req, res) => {
   const { _id } = req.user;
-
   await User.findByIdAndUpdate(_id, { token: null });
 
   res.status(204).send();

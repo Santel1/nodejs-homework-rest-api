@@ -45,7 +45,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   const currentUser = await User.findById(userId);
 
-  if (!currentUser) {
+  if (!currentUser || !currentUser.token || currentUser.token !== token) {
     throw new HttpError(401, "Not authorized");
   }
 
