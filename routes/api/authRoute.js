@@ -15,6 +15,11 @@ router.post("/login", authMiddleware.checkLoginData, authController.login);
 router.use(authMiddleware.protect);
 
 router.get("/current", authController.currentUser);
+router.patch(
+  "/avatars",
+  authMiddleware.updateUserAvatar,
+  authController.updateUserAvatar
+);
 router.post("/logout", authController.logout);
 
 module.exports = router;

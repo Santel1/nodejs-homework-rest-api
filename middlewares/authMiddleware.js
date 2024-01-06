@@ -1,5 +1,5 @@
 const { User } = require("../models");
-const { jwtServices } = require("../services");
+const { jwtServices, ImageService } = require("../services");
 const { catchAsync, userValidators, HttpError } = require("../utils");
 
 exports.checkRegisterData = catchAsync(async (req, res, next) => {
@@ -53,3 +53,5 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   next();
 });
+
+exports.updateUserAvatar = ImageService.initUpdateImageMiddleware("avatar");

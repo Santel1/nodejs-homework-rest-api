@@ -1,5 +1,5 @@
 const { User } = require("../models");
-const { jwtServices } = require("../services");
+const { jwtServices, ImageService } = require("../services");
 const { catchAsync, HttpError } = require("../utils");
 
 exports.register = catchAsync(async (req, res, next) => {
@@ -63,4 +63,28 @@ exports.logout = catchAsync(async (req, res) => {
   await User.findByIdAndUpdate(_id, { token: null });
 
   res.status(204).send();
+});
+
+exports.updateUserAvatar = catchAsync(async (req, res) => {
+  const user = req.user;
+  const file = req.file;
+
+  if (file) {
+    const newAvatar = await ImageService.saveImage(
+      file,
+      {},
+      "avatars",
+      user.id
+    );
+
+    const updateUserAvatar = await User.findByIdAndUpdate(
+      user,
+      { avatarURL: newAvatar },
+      { new: true }
+    );
+
+    res.status(200).json({
+      avatarURL: updateUserAvatar.avatarURL,
+    });
+  }
 });
