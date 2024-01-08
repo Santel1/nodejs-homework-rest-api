@@ -64,7 +64,7 @@ exports.addContact = catchAsync(async (req, res) => {
   const newContact = await Contact.create({ email, name, phone, owner });
 
   res.status(201).json({
-    id: newContact.id,
+    _id: newContact.id,
     name: newContact.name,
     email: newContact.email,
     phone: newContact.phone,
