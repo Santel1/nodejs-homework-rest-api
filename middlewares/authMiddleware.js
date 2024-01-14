@@ -54,4 +54,16 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+exports.checkVerifyData = (req, res, next) => {
+  const { value, error } = userValidators.verifyUserDataValidator(req.body);
+
+  if (error) {
+    throw new HttpError(400, "Missing required field email");
+  }
+
+  req.body = value;
+
+  next();
+};
+
 exports.updateUserAvatar = ImageService.initUpdateImageMiddleware("avatar");

@@ -15,3 +15,10 @@ exports.loginUserDataValidator = (data) =>
       password: Joi.string().min(10).max(15).required(),
     })
     .validate(data);
+
+exports.verifyUserDataValidator = (data) =>
+  Joi.object()
+    .keys({
+      email: Joi.string().email().required(),
+    })
+    .validate(data);
