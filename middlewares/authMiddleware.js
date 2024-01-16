@@ -24,7 +24,7 @@ exports.checkLoginData = (req, res, next) => {
   const { value, error } = userValidators.loginUserDataValidator(req.body);
 
   if (error) {
-    throw new HttpError(401, "Email or password is wrong");
+    throw new HttpError(400, "Invalid user data");
   }
 
   req.body = value;
